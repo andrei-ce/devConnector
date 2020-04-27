@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://celoco:celoco@cluster0-uf2a4.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "superdifficulthash",
+  "githubClientId": "db1a1fb35a32ac97e052",
+  "githubSecret": "7492c9fe95a1ef9f0c60328b78293cf7977a5a0b"
+}
