@@ -7,11 +7,7 @@ const { check, validationResult } = require('express-validator');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
-
-// @route   GET api/profile
-// @desc    Test route
-// @access  Public
-router.get('/', (req, res) => res.send('Profiles route test'));
+const Post = require('../../models/Post');
 
 // @route   GET api/profile/me
 // @desc    Get the current users profile
@@ -30,7 +26,7 @@ router.get('/me', auth, async (req, res) => {
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(400).json({ msg: 'Server error' });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -40,7 +36,7 @@ router.get('/me', auth, async (req, res) => {
 router.get('/all', async (req, res) => {
   try {
     const profiles = await Profile.find().populate('user', ['name', 'avatar']);
-    res.json({ profiles });
+    res.json(profiles);
   } catch (err) {
     console.error(err.message);
     res.send(500).json({ msg: 'Server error' });
@@ -127,15 +123,18 @@ router.post(
 
     try {
       //check if profile exists
-      let profile = Profile.findOne({ user: req.user.id });
+      let profile = await Profile.findOne({ user: req.user.id });
       if (profile) {
+        //update
+        console.log('Found profile!');
         profile = await Profile.findOneAndUpdate(
           { user: req.user.id },
           { $set: profileFields },
-          { new: true }
+          { new: true } //to return the object after the update was applied
         );
-        console.log('hi');
+        return res.json(profile);
       }
+      //create
       profile = new Profile(profileFields);
       await profile.save();
       console.log(`Profile created: ${profileFields.user}`);
@@ -152,6 +151,8 @@ router.post(
 // @access  Private
 router.delete('/', auth, async (req, res) => {
   try {
+    //remove user posts (if we delete this, the posts won't break, since they are stored separately on another Model)
+    await Post.deleteMany({ user: req.user.id });
     //remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     //remove user

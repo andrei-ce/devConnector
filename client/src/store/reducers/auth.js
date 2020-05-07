@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  ACCOUNT_DELETED,
 } from '../actions/types';
 
 const initState = {
@@ -27,7 +28,7 @@ export default function (state = initState, action) {
     case USER_NOT_LOADED:
     case LOGIN_FAIL:
     case LOGOUT:
-      console.log('123');
+    case ACCOUNT_DELETED:
       localStorage.removeItem('token');
       return {
         ...state,

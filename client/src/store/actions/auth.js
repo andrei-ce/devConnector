@@ -23,7 +23,9 @@ export const loadUser = () => async (dispatch) => {
       type: USER_LOADED,
       payload: res.data, //this is the user
     });
+    console.log('No errors in loadUser()');
   } catch (err) {
+    console.log('error in loadUser()');
     dispatch({ type: USER_NOT_LOADED });
   }
 };
