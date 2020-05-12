@@ -13,7 +13,7 @@ const Experience = ({ experience, deleteExperience }) => {
         <DayJS format='MM/DD/YYYY'>{exp.from}</DayJS> -{' '}
         {exp.to === null ? 'Now' : <DayJS format='MM/DD/YYYY'>{exp.to}</DayJS>}
       </td>
-      <td className='hide-sm'>
+      <td>
         <button className='btn btn-danger' onClick={() => deleteExperience(exp._id)}>
           Delete
         </button>

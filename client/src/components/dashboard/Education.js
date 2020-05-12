@@ -13,7 +13,7 @@ const Education = ({ education, deleteEducation }) => {
         <DayJS format='MM/DD/YYYY'>{edu.from}</DayJS> -{' '}
         {edu.to === null ? 'Now' : <DayJS format='MM/DD/YYYY'>{edu.to}</DayJS>}
       </td>
-      <td className='hide-sm'>
+      <td>
         <button className='btn btn-danger' onClick={() => deleteEducation(edu._id)}>
           Delete
         </button>

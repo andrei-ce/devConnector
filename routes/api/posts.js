@@ -98,7 +98,7 @@ router.delete('/:post_id', auth, async (req, res) => {
   }
 });
 
-// @route   PUT/posts/like/:post_id
+// @route   PUT api/posts/like/:post_id
 // @desc    Add or remove like from post
 // @access  Private
 router.put('/like/:post_id', auth, async (req, res) => {
@@ -114,13 +114,11 @@ router.put('/like/:post_id', auth, async (req, res) => {
     let usersLiked = postLiked.likes.map((like) => like.user.toString());
     //check if user already liked post = remove from list
     if (usersLiked.includes(userActive)) {
-      console.log('user exists, will remove');
       indexToRemove = usersLiked.indexOf(userActive);
       postLiked.likes.splice(indexToRemove, 1);
       res.json(postLiked.likes);
       //else = add to list
     } else {
-      console.log('new user, will add');
       postLiked.likes.unshift({ user: userActive });
       res.json(postLiked.likes);
     }
@@ -131,7 +129,7 @@ router.put('/like/:post_id', auth, async (req, res) => {
   }
 });
 
-// @route   POST/posts/comment/:post_id
+// @route   POST api/posts/comment/:post_id
 // @desc    Comment on an post, by its ID
 // @access  Private
 router.post(
