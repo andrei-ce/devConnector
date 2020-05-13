@@ -26,7 +26,6 @@ if (localStorage.token) {
 
 const App = () => {
   useEffect(() => {
-    console.log('useEffect in App run!');
     store.dispatch(loadUser());
   }, []);
   // The empty [] means that we only want to run this once (componentDidMount). Otherwise it would run everytime the state updates (infinite loop)

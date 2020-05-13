@@ -122,7 +122,9 @@ export const addComment = (formData, postId) => async (dispatch) => {
   let body = formData; //its an object
 
   try {
+    console.log('will try to add comment');
     const res = await axios.post(`/api/posts/comment/${postId}`, body, config);
+    console.log('finished axios API call');
     dispatch({
       type: ADD_COMMENT,
       payload: res.data,

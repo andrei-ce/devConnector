@@ -146,20 +146,26 @@ router.post(
 
     try {
       const user = await User.findById(req.user.id).select('-password');
-      const postToComment = await Post.findById(req.params.post_id);
-
+      // console.log('======================================');
+      // console.log(user);
+      const post = await Post.findById(req.params.post_id);
+      // console.log('======================================');
+      // console.log(post);
       const newComment = {
         text: req.body.text,
         name: user.name,
         avatar: user.avatar,
         user: req.user.id,
       };
-
-      postToComment.comments.unshift(newComment);
-      const savedPost = await postToComment.save(); //<--- we can save objects on DB and on a VAR
-
-      res.json(savedPost.comments);
+      // console.log('======================================');
+      // console.log(newComment);
+      post.comments.unshift(newComment);
+      // console.log('======================================');
+      // console.log(post);
+      await post.save(); //<--- we can save objects on DB and on a VAR
+      res.json(post.comments);
     } catch (err) {
+      console.log('this is what happened');
       console.error(err.msg);
       res.status(500).send('Server error');
     }
