@@ -99,6 +99,12 @@ img {
 .py-3 {
   padding: 3rem 0;
 }
+.pt {
+  padding-top: 0.5rem;
+}
+.pl {
+  padding-left: 0.5rem;
+}
 
 /* Margin */
 .m {
@@ -124,6 +130,9 @@ img {
 }
 .my-3 {
   margin: 3rem 0;
+}
+.mb-1 {
+  margin-bottom: 0.5rem;
 }
 
 .btn {
@@ -172,6 +181,7 @@ img {
 .alert-light {
   background: var(--light-color);
   color: #333;
+  border-radius: 4px;
 }
 
 .btn-dark,
@@ -205,6 +215,7 @@ img {
   background: #fff;
   color: #333;
   border: #ccc solid 1px;
+  border-radius: 4px;
 }
 
 .btn:hover {

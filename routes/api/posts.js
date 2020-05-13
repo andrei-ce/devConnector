@@ -139,7 +139,6 @@ router.post(
     [check('text', 'Text is required').notEmpty()], //only input by user
   ],
   async (req, res) => {
-    console.log('1');
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).json({ errors: errors.array() });
@@ -157,7 +156,6 @@ router.post(
       };
 
       postToComment.comments.unshift(newComment);
-
       const savedPost = await postToComment.save(); //<--- we can save objects on DB and on a VAR
 
       res.json(savedPost.comments);

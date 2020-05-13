@@ -5,17 +5,20 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { connect } from 'react-redux';
 import { updateLikes } from '../../store/actions/post';
+import { deletePost } from '../../store/actions/post';
 
 const PostItem = ({
   post: { _id, text, name, avatar, user, likes, comments, date }, //
   auth,
   updateLikes,
+  deletePost,
+  showActions,
 }) => {
   dayjs.extend(relativeTime);
   return (
     <div className='post bg-white p-1 my-1'>
       <div>
-        <Link to='/profile'>
+        <Link to={`/profile/${user}`}>
           <img className='round-img' src={avatar} alt='avatar' />
           <h4>{name}</h4>
         </Link>
@@ -23,32 +26,41 @@ const PostItem = ({
       <div>
         <p className='my-1'>{text}</p>
         <p className='post-date'>Posted {dayjs(date).fromNow()}</p>
-        <button type='button' className='btn btn-light' onClick={() => updateLikes(_id)}>
-          <i className='fas fa-thumbs-up'></i>
-          {likes.length > 0 && <span> {likes.length}</span>}
-        </button>
-        <Link to={`/post/${_id}`} className='btn btn-primary'>
-          Discussion{' '}
-          {comments.length > 0 && <span className='comment-count'>{comments.length}</span>}
-        </Link>
-        {!auth.loading && user === auth.user._id && (
-          <button type='button' className='btn btn-danger'>
-            <i className='fas fa-times'></i>
-          </button>
+        {showActions && (
+          <Fragment>
+            <button type='button' className='btn btn-light' onClick={(e) => updateLikes(_id)}>
+              <i className='fas fa-thumbs-up'></i>
+              {likes.length > 0 && <span> {likes.length}</span>}
+            </button>
+            <Link to={`/post/${_id}`} className='btn btn-primary'>
+              Discussion{' '}
+              {comments.length > 0 && <span className='comment-count'>{comments.length}</span>}
+            </Link>
+            {!auth.loading && user === auth.user._id && (
+              <button type='button' className='btn btn-danger' onClick={(e) => deletePost(_id)}>
+                <i className='fas fa-times'></i>
+              </button>
+            )}
+          </Fragment>
         )}
       </div>
     </div>
   );
 };
 
+PostItem.defaultProps = {
+  showActions: true,
+};
+
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   updateLikes: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { updateLikes })(PostItem);
+export default connect(mapStateToProps, { updateLikes, deletePost })(PostItem);
